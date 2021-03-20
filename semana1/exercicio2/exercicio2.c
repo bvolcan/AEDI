@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 void insert();
 void removeName();
 void list();
 
+// Sugestão de melhoria: Não declarar as variaveis globalmente
 int listSize = 0;
 char* nameList;
 
