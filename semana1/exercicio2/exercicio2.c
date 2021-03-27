@@ -7,22 +7,28 @@ void list();
 
 // Sugestão de melhoria: Não declarar as variaveis globalmente
 int listSize = 0;
-char* nameList;
+char *nameList;
 
-void main(){
+void main()
+{
     int option = 0;
     nameList = (char *)malloc(sizeof(char) * 2);
+    if (!nameList)
+    {
+        printf("Erro na alocacao de memoria");
+        return -1;
+    }
 
     do
     {
-    printf("\nInsira o numero referente a opcao escolhida: \n- 1) Adicionar nome \n- 2) Remover nome \n- 3) Listar \n- 4) Sair \n");
-    scanf("%d",&option);
+        printf("\nInsira o numero referente a opcao escolhida: \n- 1) Adicionar nome \n- 2) Remover nome \n- 3) Listar \n- 4) Sair \n");
+        scanf("%d", &option);
         switch (option)
         {
         case 1:
             insert();
             break;
-        
+
         case 2:
             removeName();
             break;
@@ -42,14 +48,16 @@ void main(){
     } while (option != 4);
 }
 
-void insert(){
+void insert()
+{
     fgetc(stdin);
+    printf("Insira o nome: ");
     if (listSize != 0)
     {
-        nameList[listSize]=',';
+        nameList[listSize] = ',';
         listSize++;
         nameList = realloc(nameList, listSize * sizeof(char) + 2);
-        nameList[listSize]=' ';
+        nameList[listSize] = ' ';
         listSize++;
         nameList = realloc(nameList, listSize * sizeof(char) + 2);
     }
@@ -61,12 +69,67 @@ void insert(){
     nameList[listSize] = '\0';
 }
 
-void removeName(){
-    for (; (nameList[listSize] != ',') && (listSize != 0); listSize--);
-    nameList = realloc(nameList, listSize * sizeof(char) + 1);
-    nameList[listSize]= '\0';
+void removeName()
+{
+    getchar();
+    char *inputName = (char *)malloc(sizeof(char) * 2);
+    int inputNameSize = 0;
+    if (!inputName)
+    {
+        printf("Erro na alocacao de memoria");
+        return -1;
+    }
+
+    printf("Insira o nome a ser removido: ");
+    for (int count = 0; ((inputName[count] = getchar()) != '\n') && inputName[count] != '\0'; count++)
+    {
+        inputNameSize++;
+        inputName = realloc(inputName, inputNameSize * sizeof(char) + 2);
+    }
+    inputName[inputNameSize] = '\0';
+
+    int i, sizeCounter;
+    for (i = 0; i < listSize && nameList[i] != '\0'; i++)
+    {
+        if (i == 0 || nameList[i - 2] == ',')
+        {
+            for (sizeCounter = i; nameList[sizeCounter] != ',' && nameList[sizeCounter] != '\0'; sizeCounter++);
+            if(i == 0 && nameList[sizeCounter] == '\0') {
+                listSize = 0;
+                nameList = realloc(nameList, sizeof(char));
+                nameList[0] = '\0';
+            }else if ((sizeCounter - i) == inputNameSize)
+            {
+                int j, k;
+
+                for (j = i, k = 0; nameList[j] == inputName[k] && k < (sizeCounter - i); j++, k++);
+                if (nameList[sizeCounter] == '\0')
+                {
+                    listSize -= inputNameSize + 2;
+                    nameList = realloc(nameList, sizeof(char) * listSize);
+                    nameList[listSize] = '\0'; 
+                }else if (k == inputNameSize)
+                {
+                    for (k = i; nameList[k + inputNameSize + 1] != '\0'; k++)
+                    {
+                        nameList[k] = nameList[k + inputNameSize + 2];
+                    }
+                    listSize -= (inputNameSize + 2);
+                    nameList = realloc(nameList, listSize * sizeof(char));
+                }
+            }
+            sizeCounter = 0;
+        }
+    }
+free(inputName);
 }
 
-void list(){
-    printf("%s\n",nameList);
+void list()
+{
+    if (listSize == 0)
+    {
+        printf("A lista de nomes está vazia!\n");
+    }else {
+    printf("%s\n", nameList);
+    }
 }
