@@ -9,13 +9,14 @@
 void *pBuffer;
 
 void insert();
-// void delete();
+void delete();
 void list();
 void search();
 
 void main(){
     int option = 0;
     pBuffer = malloc(NAMESCOUNT * 2);
+    *(int*)(pBuffer) = 0;
 
     if (!pBuffer)
     {
@@ -34,7 +35,7 @@ void main(){
             break;
 
         case 2:
-            // delete();
+            delete();
             break;
 
         case 3:
@@ -73,6 +74,40 @@ void insert() {
     *(int*)(pBuffer) = *(int*)(pBuffer) + 1;
 }
 
+void delete() {
+    getchar();
+    char deleteName[10];
+
+    printf("\nInsira o nome da pessoa a ser removida da lista: ");
+    scanf("%s", deleteName);
+
+    for (int i = 0; i < *(int*)(pBuffer); i++)
+    {
+        if ( !strcmp((char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE )), deleteName))
+        {
+            for (int j = i; j < *(int*)(pBuffer); j++)
+            {
+                if (j+1 >= *(int*)(pBuffer))
+                {
+                    *(char*)(pBuffer + NAMESCOUNT + j * ( NAME + AGE + PHONE )) = '\0';
+                    *(int*)(pBuffer + NAMESCOUNT + j * ( NAME + AGE + PHONE ) + NAME ) = 0;
+                    *(char*)(pBuffer + NAMESCOUNT + j * ( NAME + AGE + PHONE ) + NAME + AGE ) = '\0';
+                }else{
+                    strcpy((char*)(pBuffer + NAMESCOUNT + j * ( NAME + AGE + PHONE )), (char*)(pBuffer + NAMESCOUNT + (j+1) * ( NAME + AGE + PHONE )));
+                    *(int*)(pBuffer + NAMESCOUNT + j * ( NAME + AGE + PHONE ) + NAME ) = *(int*)(pBuffer + NAMESCOUNT + (j+1) * ( NAME + AGE + PHONE ) + NAME );
+                    strcpy((char*)(pBuffer + NAMESCOUNT + j * ( NAME + AGE + PHONE ) + NAME + AGE ), (char*)(pBuffer + NAMESCOUNT + (j+1) * ( NAME + AGE + PHONE ) + NAME + AGE ));
+                }     
+            }
+
+            *(int*)(pBuffer) = *(int*)(pBuffer) - 1;
+            break;
+        }
+        
+    }
+
+    pBuffer = realloc(pBuffer, ( NAMESCOUNT + (*(int*)(pBuffer)) + 1) * ( NAME + AGE + PHONE ) );
+}
+
 void search() {
     getchar();
     char searchName[10];
@@ -90,7 +125,11 @@ void search() {
 
             break;
         }
-        
+
+        if (i == *(int*)(pBuffer) - 1 )
+        {
+            printf("\nNome não encontrado");
+        }
     }
     
 }
