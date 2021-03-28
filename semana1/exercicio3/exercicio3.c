@@ -11,7 +11,7 @@ void *pBuffer;
 void insert();
 // void delete();
 void list();
-// void search();
+void search();
 
 void main(){
     int option = 0;
@@ -25,7 +25,7 @@ void main(){
 
     do
     {
-        printf("\nInsira o numero referente a opcao escolhida: \n- 1) Registrar pessoa \n- 2) Remover pessoa \n- 3) Listar \n- 4) Sair \n");
+        printf("\nInsira o numero referente a opcao escolhida: \n- 1) Registrar pessoa \n- 2) Remover pessoa \n- 3) Buscar \n- 4) Listar \n- 5) Sair \n");
         scanf("%d", &option);
         switch (option)
         {
@@ -38,7 +38,7 @@ void main(){
             break;
 
         case 3:
-            // search();
+            search();
             break;
 
         case 4:
@@ -71,6 +71,28 @@ void insert() {
     scanf("%s", (char*)(pBuffer + NAMESCOUNT + *(int*)(pBuffer) * ( NAME + AGE + PHONE ) + NAME + AGE ) );
 
     *(int*)(pBuffer) = *(int*)(pBuffer) + 1;
+}
+
+void search() {
+    getchar();
+    char searchName[10];
+
+    printf("\nInsira o nome da pessoa a ser buscada: ");
+    scanf("%s", searchName);
+
+    for (int i = 0; i < *(int*)(pBuffer); i++)
+    {
+        if ( !strcmp((char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE )), searchName))
+        {
+            printf("\n%s", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE )) );
+            printf("\n%d", *(int*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME ) );
+            printf("\n%s", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME + AGE ) );
+
+            break;
+        }
+        
+    }
+    
 }
 
 void list() {
