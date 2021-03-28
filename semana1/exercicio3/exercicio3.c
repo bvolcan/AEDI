@@ -100,9 +100,7 @@ void delete() {
             }
 
             *(int*)(pBuffer) = *(int*)(pBuffer) - 1;
-            break;
         }
-        
     }
 
     pBuffer = realloc(pBuffer, ( NAMESCOUNT + (*(int*)(pBuffer)) + 1) * ( NAME + AGE + PHONE ) );
@@ -119,16 +117,10 @@ void search() {
     {
         if ( !strcmp((char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE )), searchName))
         {
-            printf("\n%s", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE )) );
-            printf("\n%d", *(int*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME ) );
-            printf("\n%s", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME + AGE ) );
+            printf("\nNome: %s", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE )) );
+            printf("\nIdade: %d", *(int*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME ) );
+            printf("\nTelefone: %s\n", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME + AGE ) );
 
-            break;
-        }
-
-        if (i == *(int*)(pBuffer) - 1 )
-        {
-            printf("\nNome não encontrado");
         }
     }
     
@@ -137,9 +129,12 @@ void search() {
 void list() {
     for (int i = 0; i < *(int*)(pBuffer); i++)
     {
-        printf("\n%s", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE )) );
-        printf("\n%d", *(int*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME ) );
-        printf("\n%s", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME + AGE ) );
+        printf("\nNome: %s", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE )) );
+        printf("\nIdade: %d", *(int*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME ) );
+        printf("\nTelefone: %s\n", (char*)(pBuffer + NAMESCOUNT + i * ( NAME + AGE + PHONE ) + NAME + AGE ) );
     }
-    
+    if (*(int*)(pBuffer) == 0)
+    {
+        printf("A lista esta vazia\n");
+    }
 }
