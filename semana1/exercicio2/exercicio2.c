@@ -91,17 +91,32 @@ void removeName()
     int i, sizeCounter;
     for (i = 0; i < listSize && nameList[i] != '\0'; i++)
     {
-        if (i < 2 || nameList[i - 2] == ',')
+        if (i <= 2 || nameList[i - 2] == ',')
         {
-            for (sizeCounter = i; nameList[sizeCounter] != ',' && nameList[sizeCounter] != '\0'; sizeCounter++);
-             if ((sizeCounter - i) == inputNameSize)
+            if (i <= 2)
             {
-                int j, k;
+                sizeCounter = 0;
+            }else{
+                sizeCounter = i;
+            }
+            
+            for (; nameList[sizeCounter] != ',' && nameList[sizeCounter] != '\0'; sizeCounter++);
+             if ((sizeCounter - i) == inputNameSize || sizeCounter == inputNameSize)
+            {
+                int j, k, l;
+                if (i <= 2)
+                {
+                    j = 0;
+                    l = 0;
+                }else{
+                    j = i;
+                    l = i;
+                }
 
-                for (j = i, k = 0; nameList[j] == inputName[k] && k < (sizeCounter - i); j++, k++);
+                for (k = 0; nameList[j] == inputName[k] && k < (sizeCounter - l); j++, k++);
                 if (k == inputNameSize)
                 {
-                    if(i == 0 && !(listSize > inputNameSize)) {
+                    if((i == 0 || i <= 2) && !(listSize > inputNameSize)) {
                         listSize = 0;
                         nameList = realloc(nameList, sizeof(char));
                         nameList[0] = '\0';
@@ -117,6 +132,7 @@ void removeName()
                     }
                     listSize -= (inputNameSize + 2);
                     nameList = realloc(nameList, sizeof(char) * (listSize + 1));
+                    i--;
                     }
                 }
             }
