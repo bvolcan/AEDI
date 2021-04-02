@@ -15,7 +15,7 @@ void search();
 
 void main(){
     int option = 0;
-    pBuffer = malloc(NAMESCOUNT * 2);
+    pBuffer = malloc(NAMESCOUNT);
     *(int*)(pBuffer) = 0;
 
     if (!pBuffer)
