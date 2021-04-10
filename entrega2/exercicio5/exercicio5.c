@@ -14,6 +14,7 @@ void main() {
     if (!list)
     {
         printf("Erro na alocação de memória");
+        return -1;
     }
     
     int listSize = 0;
