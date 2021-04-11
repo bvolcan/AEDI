@@ -67,7 +67,7 @@ void main() {
 
 void insert() {
     getchar();
-    if (LISTSIZE == 9)
+    if (LISTSIZE == 10)
     {
         printf("A lista já alcançou o seu limite de armazenamento.\nExclua algum registro para poder registrar novamente.\n");
     } else {
@@ -130,7 +130,6 @@ void list() {
     }
     
 }
-
 void search() {
     getchar();
 
