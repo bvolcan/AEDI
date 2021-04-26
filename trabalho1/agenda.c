@@ -44,6 +44,7 @@ void insert();
 void delete();
 void list();
 void search();
+void sort();
 
 void main() {
     lista = (SLista *) malloc(sizeof(SLista));
@@ -149,14 +150,14 @@ void delete() {
     {
         if (!strcmp(aux->dado.nome, SEARCHNAME))
         {
-            if (PERSONCOUNT == 1)
+            if (PERSONCOUNT == 1) // Testa se é a última pessoa
             {
                 lista->pFirst = NULL;
                 lista->pLast = NULL;
-            }else if(aux->pPrevious == NULL) {
+            }else if(aux->pPrevious == NULL) { // Testa se é a primeira pessoa
                 aux->pNext->pPrevious = NULL;
                 lista->pFirst = aux->pNext;
-            }else if(aux->pNext == NULL) {
+            }else if(aux->pNext == NULL) { // Testa se é a última
                 aux->pPrevious->pNext = NULL;
                 lista->pLast = aux->pPrevious;
             }else {
@@ -233,7 +234,7 @@ void list() {
     {
         printf("\nNome: %s", aux->dado.nome);
         printf("\nIdade: %d", aux->dado.idade);
-        printf("\nAltura: %d \n", aux->dado.telefone);
+        printf("\nTelefone: %d \n", aux->dado.telefone);
     }
     
     pBuffer = realloc(pBuffer, INT * 2);
@@ -282,15 +283,15 @@ void sort() {
     {
        if (*SORTOPTION < 3) // String
        {
-            for (INTERATOR = 0; INTERATOR < PERSONCOUNT - 1; (INTERATOR)++)
+            for (INTERATOR = 0; INTERATOR < PERSONCOUNT - 1; (INTERATOR)++) // Garante que a agenda vai ser inteirada por completo
             {
-                for (aux = lista->pFirst; aux->pNext != NULL; aux = aux->pNext)
+                for (aux = lista->pFirst; aux->pNext != NULL; aux = aux->pNext) // Laço até antes de o nodo depois do auxiliar ser nulo
                 {
-                    if (strcmp((char *)(aux + *SORTPARAMETER), (char *)(aux->pNext + *SORTPARAMETER)) < 0)
+                    if (strcmp((char *)(aux + *SORTPARAMETER), (char *)(aux->pNext + *SORTPARAMETER)) < 0) // Compara a informação atual do nodo com a próxima
                     {
-                        if (aux == lista->pFirst)
+                        if (aux == lista->pFirst) // Testa se o nodo atual é o primeiro da agenda
                        {
-                           if (aux->pNext == lista->pLast)
+                           if (aux->pNext == lista->pLast) // Testa se o próximo nodo é o último da agenda
                            {
                                aux->pNext = NULL;
                                aux->pPrevious = lista->pLast;
@@ -308,7 +309,7 @@ void sort() {
                             aux->pNext->pPrevious = aux;
                            }
                        } else {
-                            if (aux->pNext == lista->pLast)
+                            if (aux->pNext == lista->pLast) // Testa se o próximo nodo é o último da agenda
                             {
                                 lista->pLast = aux;
                             } 
