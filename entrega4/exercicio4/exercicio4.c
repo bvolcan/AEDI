@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<time.h>
+#include<sys/time.h>
 
 int *mainArray;
 
@@ -11,6 +11,9 @@ void mergeSort(int start, int end);
 void merge(int start, int middle, int end);
 void printArray(int size);
 int verifyArray(int size);
+
+struct timeval timeStart, timeEnd;
+long seconds, micros;
 
 void main() {
     srand(time(NULL));
@@ -43,7 +46,7 @@ do
             mainArray = realloc(mainArray, sizeof(int) * arraySize);
             for (int i = 0; i < arraySize; i++)
                 {
-                    mainArray[i] = rand() % 100;
+                    mainArray[i] = rand();
                 }
         }
     }
@@ -61,12 +64,16 @@ do
         break;
 
     case 3:
+        gettimeofday(&timeStart, NULL);        
         quickSort(0, arraySize);
+        gettimeofday(&timeEnd, NULL);
         printArray(arraySize);
         break;
 
     case 4:
+        gettimeofday(&timeStart, NULL);
         mergeSort(0, arraySize);
+        gettimeofday(&timeEnd, NULL);
         printArray(arraySize);
         break;
 
@@ -84,6 +91,9 @@ do
 
 void insertionSort(int size) {
     int currentNumber, aux;
+
+    gettimeofday(&timeStart, NULL);
+
     for (int i = 1; i < size; i++)
     {
         for (int j = i; j> 0 && mainArray[j] < mainArray[j-1] && j < size; j -= 1)
@@ -92,12 +102,15 @@ void insertionSort(int size) {
             mainArray[j] = mainArray[j - 1];
             mainArray[j - 1] = aux;
         }
-    } 
+    }
+    gettimeofday(&timeEnd, NULL); 
 };
 
 void selectionSort(int size) {    
     int smallestNumber, smallestNumberIndex, aux;
 
+    gettimeofday(&timeStart, NULL);
+    
     for (int i = 0; i < size-1; i++)
     {
         smallestNumber = mainArray[i];
@@ -114,6 +127,7 @@ void selectionSort(int size) {
         mainArray[smallestNumberIndex] = aux;
         smallestNumberIndex = i+1;
     }
+    gettimeofday(&timeEnd, NULL);
 };
 
 void quickSort(int left, int right) {
@@ -205,6 +219,10 @@ void printArray(int size) {
     } else {
         printf("O array não foi ordenado apropriadamente!\n");
     }
+
+    seconds = (timeEnd.tv_sec - timeStart.tv_sec);
+    micros = ((seconds * 1000000) + timeEnd.tv_usec) - (timeStart.tv_usec);
+    printf("Tempo de execução do sort escolhido: %d segundos e %d microsegundos\n", seconds, micros);
     
 }
 
