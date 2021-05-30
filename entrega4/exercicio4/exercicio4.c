@@ -65,14 +65,14 @@ do
 
     case 3:
         gettimeofday(&timeStart, NULL);        
-        quickSort(0, arraySize);
+        quickSort(0, arraySize - 1);
         gettimeofday(&timeEnd, NULL);
         printArray(arraySize);
         break;
 
     case 4:
         gettimeofday(&timeStart, NULL);
-        mergeSort(0, arraySize);
+        mergeSort(0, arraySize - 1);
         gettimeofday(&timeEnd, NULL);
         printArray(arraySize);
         break;
